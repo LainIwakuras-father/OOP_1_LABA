@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AdaptiveSystemControl": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
