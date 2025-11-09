@@ -9,7 +9,8 @@ namespace AdaptiveSystemControl.Services
 {
     public class AlertManager
     {
-        private readonly List<IAlertNotifier> _notifiers = new List<IAlertNotifier>();
+        private readonly List<IAlertNotifier> _notifiers = [];
+        private readonly List<IAlertSubscriber> _alerts = [];
 
         // Метод для подписки на уведомления
         public void Subscribe(IAlertNotifier notifier)
@@ -32,7 +33,11 @@ namespace AdaptiveSystemControl.Services
             // Запускаем все уведомления параллельно и ждём их завершения
             await Task.WhenAll(notificationTasks);
         }
-
+        public async Task AlertAsync(string message)
+        {
+            var alertsTask = _alerts.Select(alert => alert.Alert(message));
+            await Task.WhenAll(alertsTask);
+        }
     }
 }
 /*

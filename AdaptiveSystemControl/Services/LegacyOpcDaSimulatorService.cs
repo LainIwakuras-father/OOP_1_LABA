@@ -1,18 +1,22 @@
 ﻿
+using AdaptiveSystemControl.Interfaces;
+using AdaptiveSystemControl.Sensors;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using AdaptiveSystemControl.Interfaces;
 
-namespace AdaptiveControlSystem.Services
+
+namespace AdaptiveSystemControl.Services
 {
     public class LegacyOpcDaSimulatorService : IDataProvider
     {
+        
         private readonly ILogger<LegacyOpcDaSimulatorService> _logger;
         private readonly Random _random = new Random();
 
         public LegacyOpcDaSimulatorService(ILogger<LegacyOpcDaSimulatorService> logger)
         {
+
             _logger = logger;
             _logger.LogInformation("Симулятор Legacy OPC DA сервиса создан.");
         }
@@ -36,6 +40,10 @@ namespace AdaptiveControlSystem.Services
                     _logger.LogDebug("(LEGACY SIM) Сгенерировано значение: {Value}", simulatedValue);
                 }
                 return Task.FromResult(simulatedValue);
+
+
+
+
             }
             catch (Exception ex)
             {

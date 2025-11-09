@@ -56,6 +56,8 @@ namespace AdaptiveSystemControl.Services
                     // ОПОВЕЩАЕМ ВСЕХ ПОДПИСЧИКОВ
                     await _alertManager.NotifyAllAsync(alertMessage, rawData);
 
+                    await _alertManager.AlertAsync(alertMessage);
+
                 }
                 else
                 {

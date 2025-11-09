@@ -44,6 +44,10 @@ namespace AdaptiveSystemControl
             builder.Services.AddTransient<SuddenJumpDetectionStrategy>();
             builder.Services.AddSingleton<DataProcessor>();
 
+            //// Разные способы регистрации
+            //services.AddTransient<IOpcUaService, OpcUaService>(); // Новый экземпляр каждый раз
+            //services.AddScoped<IOpcUaService, OpcUaService>();    // Один экземпляр на запрос
+            //services.AddSingleton<IOpcUaService, OpcUaService>(); // Один экземпляр на все приложение
             // 7. РЕГИСТРИРУЕМ КОМПОНЕНТЫ СИСТЕМЫ ОПОВЕЩЕНИЯ
             builder.Services.AddTransient<IAlertNotifier, LoggerAlertNotifier>();
             builder.Services.AddTransient<IAlertNotifier, EmailAlertNotifier>();
