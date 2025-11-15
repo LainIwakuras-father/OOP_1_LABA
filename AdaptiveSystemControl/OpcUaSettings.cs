@@ -7,6 +7,11 @@ using Workstation.ServiceModel.Ua;
 
 namespace AdaptiveSystemControl.Services
 {
+    public class MonitoringSettings 
+    {
+        public double ErrorRateThreshold { get; set; } = 0.3; // 30% ошибок
+        public int ResponseTimeThresholdMs { get; set; } = 5000; // 5 секунд
+    }
     public class OpcUaSettings
     {
         public string serverUrl { get; set; } = "";

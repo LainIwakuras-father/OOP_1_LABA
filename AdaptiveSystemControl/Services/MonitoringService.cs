@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,19 +20,25 @@ namespace AdaptiveSystemControl.Services
         private readonly ILogger<MonitoringService> _logger;
         private readonly int _monitoringIntervalMs;
         private Timer _timer;
+
+        private readonly CircuitBreaker _circuitBreaker;
+        //private readonly MonitoringSettings _settings;
         // Изменяем конструктор: принимаем DataProcessor вместо конкретной стратегии
         public MonitoringService(
             IDataProvider dataProvider,
             DataProcessor dataProcessor, // Внедряем процессор
             AlertManager alertManager, // Внедряем AlertManager
             ILogger<MonitoringService> logger,
-            IOptions<MonitoringSettings> settings)
+            IOptions<MonitoringSettings> settings,
+            CircuitBreaker circuitBreaker)
         {
             _dataProvider = dataProvider;
             _dataProcessor = dataProcessor;
             _alertManager = alertManager;
             _logger = logger;
             _monitoringIntervalMs = settings.Value.monitoringIntervalMs;
+
+            _circuitBreaker = circuitBreaker;
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -40,7 +47,7 @@ namespace AdaptiveSystemControl.Services
             return Task.CompletedTask;
         }
         private async void DoWork(object state)
-        {
+        {   var stop = Stopwatch.StartNew();
             try
             {
                 // 1. Читаем данные
